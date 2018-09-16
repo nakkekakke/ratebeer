@@ -19,5 +19,11 @@
   <% end %>
 </p>
 
+<% if @brewery.ratings.empty? %>
+  This brewery has no ratings!
+<% else %>
+  <%= "The beers of this brewery have " << pluralize(@brewery.ratings.size, 'rating') << " with average of " << @brewery.average_rating.to_s %>
+<% end %>
+
 <%= link_to 'Edit', edit_brewery_path(@brewery) %> |
 <%= link_to 'Back', breweries_path %>
