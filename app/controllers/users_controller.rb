@@ -41,16 +41,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user == current_user
-        if @user.update(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
-          format.json { render :show, status: :ok, location: @user }
-        else
-          format.html { render :edit }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+      if user_params[:username].nil? && @user == current_user && @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
       else
-        format.html { redirect_to edit_user_path, notice: 'Unauthorized action' }
+        format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -61,6 +56,7 @@ class UsersController < ApplicationController
   def destroy
     if @user == current_user
       @user.destroy
+      session[:user_id] = nil
     else
       respond_to do |format|
         format.html { redirect_to users_path, notice: 'Unauthorized action' }
