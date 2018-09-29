@@ -1,3 +1,3 @@
 # Ratebeer
 
-[Heroku](https://git.heroku.com/nakkekakke-ratebeer.git)
+[Heroku](https://nakkekakke-ratebeer.herokuapp.com/)
