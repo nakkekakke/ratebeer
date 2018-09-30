@@ -62,7 +62,7 @@ class UsersController < ApplicationController
         format.html { redirect_to users_path, notice: 'Unauthorized action' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-    end  
+    end
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
