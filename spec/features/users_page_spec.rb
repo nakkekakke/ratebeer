@@ -15,25 +15,6 @@ describe "User" do
     }.to change{ User.count }.by(1)
   end
 
-  it "page shows all of the user's ratings" do
-    brewery = FactoryBot.create :brewery, name: 'TastyBrewery'
-    beer = FactoryBot.create :beer, name: 'TastyBeer', brewery: brewery
-    ratings = [15, 20, 25]
-    ratings.each do |score|
-      FactoryBot.create :rating, score: score, beer: beer, user: user
-    end
-
-    visit user_path(user)
-
-    expect(page).to have_content "Ratings"
-
-    ratings.each do |rating|
-      expect(page).to have_content(rating)
-    end
-
-    
-  end
-
   describe "who has signed up" do
     it "can sign in with the right credentials" do
       sign_in(username: 'Pekka', password: 'Foobar1')
