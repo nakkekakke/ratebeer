@@ -28,6 +28,7 @@ require 'rspec/rails'
 # If you are not using ActiveRecord, you can remove these lines.
 
 require 'helpers'
+require 'webmock/rspec'
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

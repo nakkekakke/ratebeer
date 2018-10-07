@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :beers
   resources :breweries
   resources :ratings, only: [:index, :new, :create, :destroy]
+  resources :places, only: [:index, :show]
+  resources :styles, only: [:index, :show]
   resource :session, only: [:new, :create, :destroy]
   root 'breweries#index'
   #get 'ratings',  to: 'ratings#index'
@@ -13,7 +15,7 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new'
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  post 'places', to: 'places#search'
 
-  
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
