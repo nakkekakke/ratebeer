@@ -9,7 +9,7 @@
       <th colspan="2"></th>
     </tr>
   </thead>
-  
+
   <tbody>
     <% @styles.each do |style| %>
       <tr>
@@ -18,3 +18,8 @@
     <% end %>
   </tbody>
 </table>
+
+<% if current_user %>
+  <br>
+  <%= link_to 'Add a new style', new_style_path %>
+<% end %>

@@ -13,3 +13,12 @@
     </li>
   <% end %>
 </ul>
+
+<% if current_user %>
+  <br>
+  <%= link_to 'Edit', edit_style_path(@style) %>
+  <!-- <br>
+  <%= link_to 'Delete', @style, method: :delete, data: { confirm: 'Are you sure? Please make sure this style has NO BEERS attached to it before deleting!' } %> -->
+  <br>
+<% end %>
+<%= link_to 'Back', styles_path %>

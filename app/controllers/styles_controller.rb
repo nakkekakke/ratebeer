@@ -1,14 +1,18 @@
 class StylesController < ApplicationController
+  before_action :set_style, only: [:show, :edit, :update, :destroy]
+
   def index
     @styles = Style.all
   end
 
   def show
-    @style = Style.find(params[:id])
   end
 
   def new
     @style = Style.new
+  end
+
+  def edit
   end
 
   def create
@@ -25,7 +29,31 @@ class StylesController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @style.update(style_params)
+        format.html { redirect_to @style, notice: 'Style was succesfully updated.' }
+        format.json { render :show, status: :created, location: @style }
+      else
+        format.html { render :edit }
+        format.json { render json: @style.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @style.destroy
+    respond_to do |format|
+      format.html { redirect_to styles_url, notice: 'Style was successfully destroyed' }
+      format.json { head :no_content }
+    end
+  end
+
   private
+
+  def set_style
+    @style = Style.find(params[:id])
+  end
 
   def style_params
     params.require(:style).permit(:name, :description)
