@@ -18,7 +18,7 @@
 </ul>
 
 <% if current_user %>
-  <% if current_user.beer_clubs.exclude?(@beer_club) %>
+  <% if @beer_club.members.exclude?(current_user) %>
 
     <h4> Join this club: </h4>
     <%= form_for(@membership) do |f| %>

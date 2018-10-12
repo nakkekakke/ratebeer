@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 describe "Place" do
+  before :each do
+    allow(ApixuApi).to receive(:weather_in).with("kumpula").and_return(
+      {"last_updated_epoch"=>1539363624,
+        "last_updated"=>"2018-10-12 20:00",
+        "temp_c"=>10.0,
+        "temp_f"=>50.0,
+        "is_day"=>0,
+        "condition"=>
+         {"text"=>"Mist",
+          "icon"=>"//cdn.apixu.com/weather/64x64/night/143.png",
+          "code"=>1030},
+        "wind_mph"=>5.6,
+        "wind_kph"=>9.0,
+        "wind_degree"=>160,
+        "wind_dir"=>"SSE",
+        "pressure_mb"=>1026.0,
+        "pressure_in"=>30.8,
+        "precip_mm"=>0.0,
+        "precip_in"=>0.0,
+        "humidity"=>100,
+        "cloud"=>75,
+        "feelslike_c"=>8.8,
+        "feelslike_f"=>47.9,
+        "vis_km"=>3.0,
+        "vis_miles"=>1.0}
+        )
+  end
+
   it "if one returned by the API, it is shown at the page" do
     allow(BeermappingApi).to receive(:places_in).with("kumpula").and_return(
       [Place.new( name: 'Oljenkorsi', id: 1 )]      

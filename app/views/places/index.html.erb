@@ -8,6 +8,17 @@
 <% end %>
 
 <% if @places %>
+  <h3>The current weather in <%= @places.first.city %></h3>
+  <p>
+    <%= @weather['temp_c'] %>°C, <%= @weather['condition']['text'] %>
+  </p>
+
+  <img src=<%= @weather['condition']['icon'] %> >
+
+  <p><strong>Wind:</strong> <%= (@weather['wind_kph'] * 0.277777778).round(1) %> m/sec, direction <%= @weather['wind_dir'] %></p>
+  <br>
+
+  <h3>Places to get your beer</h3>
   <table>
     <thead>
       <tr>
@@ -18,14 +29,15 @@
     </thead>
     <% @places.each do |place| %>
       <tr>
-        <td><%= place.id %></td>
-        <td><%= link_to place.name, place_path(place.id) %></td>
-        <td><%= place.status %></td>
-        <td><%= place.street %></td>
-        <td><%= place.city %></td>
-        <td><%= place.zip %></td>
-        <td><%= place.country %></td>
-        <td><%= place.overall %></td>
+        <% Place.rendered_fields.each do |field| %>
+          <td>
+            <% if field == :name %>
+              <%= link_to place.name, place_path(place.id) %>
+            <% else %>
+              <%= place.send(field) %>
+            <% end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </table>

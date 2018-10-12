@@ -31,7 +31,8 @@ describe "Rating" do
 
     before :each do
       schlenkerla = FactoryBot.create :brewery, name: 'Schlenkerla'
-      create_beer_with_rating({ user: user, style: 'Rauchbier', brewery: schlenkerla }, 20)
+      rauchbier = FactoryBot.create :style, name:'Rauchbier'
+      create_beer_with_rating({ user: user, style: rauchbier, brewery: schlenkerla }, 20)
       create_beer_with_rating({ user:user }, 10)
       user2 = FactoryBot.create :user, username: 'Arto'
       create_beers_with_many_ratings({ user: user2 }, 7, 9, 15)
