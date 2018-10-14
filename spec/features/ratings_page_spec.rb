@@ -38,14 +38,14 @@ describe "Rating" do
       create_beers_with_many_ratings({ user: user2 }, 7, 9, 15)
     end
 
-    it "shows all ratings and their count at ratings index page" do
+    it "shows recent ratings and rating count at ratings index page" do
       visit ratings_path
       expect(page).to have_content 'Total number of ratings: 5'
-      expect(page).to have_content 'Anonymous: 20 Pekka'
-      expect(page).to have_content 'Anonymous: 10 Pekka'
-      expect(page).to have_content 'Anonymous: 7 Arto'
-      expect(page).to have_content 'Anonymous: 9 Arto'
-      expect(page).to have_content 'Anonymous: 15 Arto'
+      expect(page).to have_content 'Anonymous: 20 by Pekka'
+      expect(page).to have_content 'Anonymous: 10 by Pekka'
+      expect(page).to have_content 'Anonymous: 7 by Arto'
+      expect(page).to have_content 'Anonymous: 9 by Arto'
+      expect(page).to have_content 'Anonymous: 15 by Arto'
     end
 
     it "shows only user's own ratings at user's page" do
@@ -58,7 +58,7 @@ describe "Rating" do
     it "when user removes a rating, it is deleted from the database" do
       sign_in(user) # same as sign_in( username: 'Pekka', password: 'Foobar1' )
       visit user_path(user)
-      delete_link = all('a').select{ |link| link.text=='Delete' }.first
+      delete_link = all('a').select{ |link| link.text=='Delete rating' }.first
 
       expect {
         delete_link.click        

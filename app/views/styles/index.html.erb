@@ -1,8 +1,8 @@
-<p id="notice"><%= notice %></p>
+ 
 
 <h1>Styles</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th></th>
@@ -19,7 +19,6 @@
   </tbody>
 </table>
 
-<% if current_user %>
-  <br>
-  <%= link_to 'Add a new style', new_style_path %>
-<% end %>
+<br>
+<%= link_to 'Add a new style', new_style_path, class:'btn btn-primary' if current_user %>
+

@@ -1,14 +1,26 @@
-<p id="notice"><%= notice %></p>
-
-<h2>
-  <%= @user.username %>
-</h2>
+<% if current_user && current_user.admin %>
+  <% if @user.closed %>
+     <h2>
+      <%= @user.username %> <span class="badge badge-info">Account closed</span>
+    </h2>
+    <%= link_to 'Open account', toggle_closed_user_path(@user.id), method: :post, class: 'btn btn-primary' %>
+  <% else %>
+    <h2>
+      <%= @user.username %>
+    </h2> 
+    <%= link_to 'Close account', toggle_closed_user_path(@user.id), method: :post, class:'btn btn-danger' %>
+  <% end %>
+<% else %>
+   <h2>
+    <%= @user.username %>
+  </h2>  
+<% end %>
 
 <% if @user.ratings.empty? %>
   <p>Has not rated any beers yet</p>
 <% else %>
   <p>
-    Has made <%= pluralize(@user.ratings.count, 'rating') %> with the average score of <%= @user.average_rating %>
+    Has made <%= pluralize(@user.ratings.count, 'rating') %> with the average score of <%= round(@user.average_rating) %>
   </p>
   <p> Favorite beer: <%= @user.favorite_beer.name %> </p>
   <p> Favorite brewery: <%= @user.favorite_brewery.name %> </p>
@@ -36,7 +48,7 @@
       <li>
         <%= rating %> 
         <% if @user == current_user %>
-          <%= link_to 'Delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %></li>
+          <%= link_to 'Delete rating', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' %></li>
         <% end %>
       </li>
     <% end %>
@@ -44,7 +56,6 @@
 <% end %>
 
 <% if @user == current_user %>
-  <%= link_to 'Change password', edit_user_path(@user) %> 
-  |
-  <%= link_to 'Delete account', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Change password', edit_user_path(@user), class:'btn btn-warning' %>
+  <%= link_to 'Delete account', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' %>
 <% end %>
