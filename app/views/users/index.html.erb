@@ -17,7 +17,7 @@
         <td><%= user.beers.size %></td>
         <td><%= user.ratings.size %></td>
         <td>
-          <% if current_user.admin && user.closed %>
+          <% if current_user && current_user.admin && user.closed %>
             <span class="badge badge-info">Account closed</span>
           <% end %>
         </td>
