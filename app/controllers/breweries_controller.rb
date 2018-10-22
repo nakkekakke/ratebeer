@@ -1,13 +1,24 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in, except: [:index, :show, :list]
   before_action :ensure_admin_status, only: [:destroy]
 
   # GET /breweries
   # GET /breweries.json
   def index
+    return if request.format.html? && fragment_exist?('brewerylist')
+
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
+    @breweries = Brewery.all
+
+    order = params[:order] || 'name'
+    @breweries =  case order
+                  when 'name' then @breweries.sort_by(&:name)
+                  when 'year' then @breweries.sort_by(&:year)
+                  when 'active' then @breweries.sort_by(&:active)
+                  when 'beers' then @breweries.sort_by{ |b| b.beers.count }
+                  end
   end
 
   # GET /breweries/1
@@ -31,6 +42,7 @@ class BreweriesController < ApplicationController
 
     respond_to do |format|
       if @brewery.save
+        expire_fragment('brewerylist')
         format.html { redirect_to @brewery, notice: 'Brewery was successfully created.' }
         format.json { render :show, status: :created, location: @brewery }
       else
@@ -45,6 +57,7 @@ class BreweriesController < ApplicationController
   def update
     respond_to do |format|
       if @brewery.update(brewery_params)
+        expire_fragment('brewerylist')
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
         format.json { render :show, status: :ok, location: @brewery }
       else
@@ -58,6 +71,7 @@ class BreweriesController < ApplicationController
   # DELETE /breweries/1.json
   def destroy
     @brewery.destroy
+    expire_fragment('brewerylist')
     respond_to do |format|
       format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }
       format.json { head :no_content }
@@ -70,7 +84,12 @@ class BreweriesController < ApplicationController
 
     new_status = brewery.active? ? "active" : "retired"
 
+    expire_fragment('brewerylist')
+
     redirect_to brewery, notice: "Brewery activity status changed to #{new_status}"
+  end
+
+  def list
   end
 
   private
